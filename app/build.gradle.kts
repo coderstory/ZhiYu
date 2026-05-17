@@ -103,6 +103,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
+    // Markdown (compose-richtext)
+    implementation(libs.richtext.ui)
+    implementation(libs.richtext.commonmark)
+    implementation(libs.richtext.ui.material3)
+
     // Testing
     testImplementation(libs.compose.ui.test.junit4)
     testImplementation(libs.room.testing)
