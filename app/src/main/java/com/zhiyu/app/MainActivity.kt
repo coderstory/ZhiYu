@@ -5,8 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -19,8 +17,8 @@ import com.zhiyu.app.model.ThemeMode
 import com.zhiyu.app.navigation.AppNavigation
 import com.zhiyu.app.navigation.ZhiYuRoutes
 import com.zhiyu.app.ui.theme.ZhiYuTheme
-import top.yukonga.miuix.kmp.basic.NavigationBar
-import top.yukonga.miuix.kmp.basic.NavigationBarItem
+import top.yukonga.miuix.kmp.basic.FloatingNavigationBar
+import top.yukonga.miuix.kmp.basic.FloatingNavigationBarItem
 import top.yukonga.miuix.kmp.basic.NavigationItem
 import top.yukonga.miuix.kmp.basic.Scaffold
 import top.yukonga.miuix.kmp.icon.MiuixIcons
@@ -62,12 +60,11 @@ class MainActivity : ComponentActivity() {
 
             ZhiYuTheme(themeMode = themeMode) {
                 Scaffold(
-                    contentWindowInsets = WindowInsets.navigationBars,
                     bottomBar = {
                         if (isTabRoot) {
-                            NavigationBar {
+                            FloatingNavigationBar {
                                 tabItems.forEachIndexed { index, (item, route) ->
-                                    NavigationBarItem(
+                                    FloatingNavigationBarItem(
                                         selected = selectedIndex == index,
                                         onClick = {
                                             navController.navigate(route) {
