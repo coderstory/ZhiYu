@@ -38,10 +38,10 @@
 **Plans**: 4 plans
 
 **Plan list:**
-- [ ] `01-01-PLAN.md` — Build System Foundation (version catalog, Gradle config, manifest, resources)
+- [x] `01-01-PLAN.md` — Build System Foundation (version catalog, Gradle config, manifest, resources)
 - [x] `01-02-PLAN.md` — Data Layer + DI Wiring (Room entities, DAOs, Database, DataStore, Koin modules)
-- [ ] `01-03-PLAN.md` — MIUI Theme System + CJK Font Fallback (Color, Type, Shape, Dimens, Theme)
-- [ ] `01-04-PLAN.md` — Splash Screen + MainActivity + FoundationPlaceholder
+- [x] `01-03-PLAN.md` — MIUI Theme System + CJK Font Fallback (Color, Type, Shape, Dimens, Theme)
+- [x] `01-04-PLAN.md` — Splash Screen + MainActivity + FoundationPlaceholder
 
 **UI hint**: yes
 
@@ -161,7 +161,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 2/4 | In Progress|  |
+| 1. Foundation | 4/4 | In Progress|  |
 | 2. Navigation Shell | 0/0 | Not started | - |
 | 3. Info Dashboard | 0/0 | Not started | - |
 | 4. Knowledge Base + Quick Notes | 0/0 | Not started | - |

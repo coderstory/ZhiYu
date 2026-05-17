@@ -806,27 +806,19 @@ val viewModelModule = module {
 | A6 | Chinese text pre-segmentation via `java.text.BreakIterator` is sufficient for FTS4 search quality with unicode61 tokenizer | Room FTS4 | Poor search recall for Chinese; Phase 4 would need WCDB evaluation |
 | A7 | AGP 9.0.28 is the correct patch version for Kotlin 2.3.21 (compatibility table not rechecked in this session) | Standard Stack | Build failure; verify against developer.android.com/build/kotlin-support |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **MIUIX Font Customization API**
-   - What we know: MIUIX provides `MiuixTheme(colors = ...)` with `lightColorScheme()`/`darkColorScheme()`. It internally wraps Material3.
-   - What's unclear: Whether `MiuixTheme` exposes a `fontFamily` or `typography` parameter for CJK font override, or whether the CJK FontFamily must be applied via wrapping CompositionLocal.
-   - Recommendation: During implementation, inspect MIUIX source for `MiuixTheme` signature. If no font param exists, create a `ProvideCJKFontFamily` CompositionLocal wrapper around `MiuixTheme`. This is a Claude's Discretion item.
+1. **MIUIX Font Customization API** -- RESOLVED: Use CompositionLocal wrapper approach. Plan 03 implements CJK font via MaterialTheme Typography and MIUIX textStyles override; MiuixTheme does not expose fontFamily param.
+   - Recommendation applied: Type.kt applies CJK font family to all 14 MIUIX text styles and all 13 Material3 typography roles individually via `.copy(fontFamily = cjkFamily)`.
 
-2. **Kotlin 2.3.21 vs 2.3.20 Compatibility Surface**
-   - What we know: 2.3.21 is a bug-fix patch (Apr 23, 2026). Koin 4.2.1 release notes mention Kotlin 2.3.20. MIUIX v0.9.1 uses Kotlin 2.3.21 (per GitHub badges).
-   - What's unclear: Whether Koin 4.2.1 binary compiled against Kotlin 2.3.20 standard library is fully compatible with 2.3.21 at runtime.
-   - Recommendation: Kotlin patch releases maintain binary compatibility. Risk is low. If build fails, check for Koin 4.2.2 (patch) or downgrade to a MIUIX version that supports 2.3.20.
+2. **Kotlin 2.3.21 vs 2.3.20 Compatibility Surface** -- RESOLVED: Patch releases maintain binary compatibility. Build config uses Kotlin 2.3.21.
+   - Decision: Use 2.3.21 per MIUIX v0.9.1 requirement. Koin 4.2.1 binary compatible. If build fails, fall back to MIUIX version supporting 2.3.20.
 
-3. **FTS4 Chinese Tokenizer -- ICU vs WCDB vs BreakIterator**
-   - What we know: ICU tokenizer is UNAVAILABLE on Android system SQLite. WCDB provides mmicu. BreakIterator is a pure-Java alternative but less accurate.
-   - What's unclear: Whether Phase 4 search quality requirements demand WCDB-level Chinese word segmentation or whether BreakIterator pre-segmentation is "good enough" for a personal knowledge base.
-   - Recommendation: At Phase 1, create the FTS4 entity with `TOKENIZER_UNICODE61` (which does not crash). In Phase 4, evaluate search quality. WCDB integration requires replacing Room's SQLite factory -- plan for it as an option, not a foundation requirement.
+3. **FTS4 Chinese Tokenizer -- ICU vs WCDB vs BreakIterator** -- RESOLVED: Use TOKENIZER_UNICODE61 in Phase 1. Re-evaluate in Phase 4.
+   - Decision: TOKENIZER_UNICODE61 at foundation. WCDB integration deferred to Phase 4 if search quality is unacceptable. ICU is unavailable on Android SQLite.
 
-4. **Noto Sans SC Subset Size for APK Budget**
-   - What we know: Full Regular ~16MB. Google Fonts serves it as ~100 chunks of 30-50KB each. Subsetting to common characters yields ~1-3MB.
-   - What's unclear: How many unique Chinese characters are used across the app (UI strings + static content). Different from user-generated content (unbounded).
-   - Recommendation: Subset to ~4,000 commonly used characters (covering UI strings + GB2312 Level 1) for the bundled font. System CJK fallback handles user-generated content. Target <2MB for the bundled font file.
+4. **Noto Sans SC Subset Size for APK Budget** -- RESOLVED: Target ~2MB subset. System CJK fallback handles user-generated content.
+   - Decision: Subset to ~4,000 commonly used Chinese characters (UI strings + GB2312 Level 1). Target <2MB. Full Noto Sans SC not bundled.
 
 ## Environment Availability
 

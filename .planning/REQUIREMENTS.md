@@ -9,10 +9,10 @@
 
 - [ ] **FND-01**: Kotlin + Jetpack Compose 项目配置，Gradle Kotlin DSL + 版本目录
 - [ ] **FND-02**: Android 16+ 兼容（minSdk = targetSdk = 36）
-- [ ] **FND-03**: Koin 依赖注入框架集成
+- [x] **FND-03**: Koin 依赖注入框架集成
 - [ ] **FND-04**: MIUIX UI 库集成（`top.yukonga.miuix.kmp:miuix-ui`）
-- [ ] **FND-05**: Room 数据库 + DataStore 偏好存储
-- [ ] **FND-06**: MVVM + UDF 架构模式
+- [x] **FND-05**: Room 数据库 + DataStore 偏好存储
+- [x] **FND-06**: MVVM + UDF 架构模式
 - [ ] **FND-07**: 主题系统 — MIUI 风格 + 暗色模式（跟随系统配置）
 - [ ] **FND-08**: 中文字体回退支持（CJK font fallback）
 - [ ] **FND-09**: Splash 启动屏
