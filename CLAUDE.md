@@ -23,159 +23,175 @@ Android 个人效率应用，融合信息看板、知识管理和工具集。主
 <!-- GSD:stack-start source:research/STACK.md -->
 ## 技术栈
 
-## 推荐技术栈
+## 实际落地技术栈 (2026-05-18)
 ### 核心框架
-| 技术 | 版本 | 用途 | 原因 |
-|------------|---------|---------|-----|
-| Android Gradle Plugin | **9.0.28+** (最新 9.0.x) | 构建系统 | compileSdk 36 必需，内置 Kotlin 支持（无需 `kotlin-android` 插件） |
-| Gradle | **9.3.1** | 构建工具 | AGP 9.0 需要 Gradle 9.1+；9.3.1 为最新稳定版 |
-| Kotlin | **2.3.20** | 语言 | 最新稳定版，兼容 AGP 9.0.x |
-| KSP | **2.3.6** | 注解处理 | 用于 Room；匹配 Kotlin 2.3.20 |
-| JDK | **17**（或 21） | 编译 | AGP 9.0 最低要求；JDK 21 也兼容 |
-| compileSdk | **36** | SDK 编译 | Android 16 (API 36)；AGP 9.0 内置 SDK Build Tools 36.0.0 |
-| minSdk | **36** | 最低支持 | 项目要求：仅 Android 16+ |
-| targetSdk | **36** | 目标行为 | Google Play 新应用要求 API 36 |
-### Jetpack Compose（通过 BOM）
-| 库 | 版本管理 | 用途 |
-|---------|-----------|---------|
-| Compose BOM | **2026.04.01** | 管理所有 Compose 库版本 |
-| Compose UI | BOM | 核心 UI 原语（Modifier、Layout 等） |
-| Compose UI Graphics | BOM | Canvas、图片、渲染 |
-| Compose Foundation | BOM | 布局、手势、文本、LazyColumn |
-| Material3 | BOM | Material Design 3 组件（NavigationBar、Scaffold 等） |
-| Material Icons Extended | BOM | 完整 Material 图标集（用于底部 Tab 图标） |
-| Compose Compiler（Kotlin 插件） | Kotlin 2.3.20 内置 | Compose 编译器作为 Kotlin 编译器插件（无需单独依赖） |
+| 技术 | 版本 | 用途 |
+|------------|---------|---------|
+| Android Gradle Plugin | **9.2.1** | 构建系统 |
+| Gradle | **9.4.1** | 构建工具 |
+| Kotlin | **2.3.21** | 语言 (MIUIX 0.9.1 要求) |
+| KSP | **2.3.6** | 注解处理 (Room) |
+| JDK | **26** | 编译 |
+| compileSdk | **37 (preview)** | SDK 编译 |
+| minSdk | **36** | 最低支持 (Android 16) |
+| targetSdk | **36** | 目标行为 |
+
+### Jetpack Compose (BOM 2026.04.01)
+Material3 + Material Icons Extended + Foundation + UI Tooling
+
 ### 数据库
-| 库 | 版本 | 用途 | 原因 |
-|---------|---------|---------|-----|
-| Room | **2.8.4** | 本地数据库 | 稳定、文档完善、支持协程/Flow |
-| Room KTX | 2.8.4 | 协程扩展 | Suspend DAO 方法、Flow 返回类型 |
-| Room Compiler（通过 KSP） | 2.8.4 | 代码生成 | 使用 KSP（非 KAPT）进行 Room 注解处理 |
+Room 2.8.4 + KTX + Compiler (KSP)
+
 ### 导航
-| 库 | 版本 | 用途 | 原因 |
-|---------|---------|---------|-----|
-| Navigation Compose | **2.9.8** | 屏幕导航 | 稳定、类型安全导航、文档完善 |
-### 数据/偏好存储
-| 库 | 版本 | 用途 | 原因 |
-|---------|---------|---------|-----|
-| DataStore Preferences | **1.2.1** | 键值对存储 | SharedPreferences 的现代替代品；基于协程/Flow、事务性 |
+Navigation Compose 2.9.8 + Kotlin Serialization (@Serializable routes)
+
+### DI
+Koin 4.2.1 (koin-android + koin-androidx-compose)
+
+### 主题/偏好
+DataStore Preferences 1.2.1 — `flowOn(Dispatchers.IO)` + `distinctUntilChanged()`
+
+### MIUIX 组件
+- `miuix-ui:0.9.1` — 基础 UI 组件 (NavigationBar, Scaffold, Card, Text, Icon, TopAppBar, LazyColumn 等)
+- `miuix-icons:0.9.1` — 扩展图标集
+- `miuix-preference:0.9.1` — 偏好设置组件 (ArrowPreference, RadioButtonPreference)
+
+### Markdown (Phase 4)
+compose-richtext 1.0.0-alpha03 (richtext-ui + richtext-commonmark + richtext-ui-material3)
+
 ### 闪屏
-| 库 | 版本 | 用途 | 原因 |
-|---------|---------|---------|-----|
-| Core SplashScreen | **1.2.0** | 闪屏 API | 标准 AndroidX 实现，支持闪屏图标、动画、主题 |
-- 各 API 级别行为一致
-- `SplashScreenViewProvider` 支持自定义退出动画
-- 通过 styles 中的 `Theme.SplashScreen` 进行主题配置
-### Markdown 渲染
-| 库 | 版本 | 用途 | 原因 |
-|---------|---------|---------|-----|
-| compose-richtext (richtext-ui, richtext-commonmark, richtext-ui-material3) | **1.0.0-alpha03** | Compose 中渲染 Markdown | Compose 原生、Material3 主题集成、CommonMark 解析器 |
-- `jeziellago/compose-markdown:0.5.8` — 托管于 JitPack（非 Maven Central），维护较少，存在 View 互操作问题
-- 基于 WebView — 非 Compose 惯用方式，更重、更慢
-- compose-richtext 是唯一活跃维护且支持 Material3 的 Compose 原生库
+平台内置 SplashScreen API (API 31+)，`core-splashscreen` 1.2.0 在 compileSdk 37 预览版中不可用
+
 ### 不需要的技术
-| 技术 | 原因 |
-|-----------|---------|
-| `org.jetbrains.kotlin.android` 插件 | AGP 9.0+ **内置 Kotlin 支持** — 应用此插件会导致构建失败 |
-| 单独的 Compose Compiler (`androidx.compose.compiler:compiler`) | Compose 编译器 **内置于 Kotlin 2.0+** — 应使用 `org.jetbrains.kotlin.plugin.compose` |
-| KAPT | KSP 已取代 KAPT 用于所有注解处理 |
-| ViewBinding / DataBinding | Compose 不需要 XML 视图绑定 |
-| Hilt / Dagger | 个人应用依赖注入需求简单 — 手动 DI 或轻量级服务定位器即可 |
-| Retrofit / OkHttp | 无网络请求 — 纯本地应用 |
-| Hilt | 单用户本地应用不需要这种复杂性 |
-## 备选方案
-| 类别 | 推荐方案 | 备选方案 | 不选原因 |
-|----------|-------------|-------------|---------|
-| Compose 编译器 | Kotlin 插件（内置） | `androidx.compose.compiler:compiler` | 独立编译器工件自 Kotlin 2.0 起已废弃 |
-| 导航 | Compose Navigation 2.9.8 | Navigation 3 1.2.0 | 文档较少；API 不同；对底部 Tab 来说大材小用 |
-| 数据库 | Room 2.8.4 | Room 3.0.0-alpha04 | Room 3.0 为 alpha 版，面向 KMP，API 有破坏性变更 |
-| 注解处理 | KSP 2.3.6 | KAPT | KAPT 已废弃；KSP 快 2 倍且兼容 AGP 9.0 |
-| Markdown | compose-richtext | WebView + marked.js | 非 Compose 惯用方式；更重；更慢 |
-| 主题/偏好存储 | DataStore Preferences | SharedPreferences | SharedPreferences 已过时；同步 API 阻塞主线程 |
-| 构建插件 | AGP 9.0.x + Kotlin 2.3.x | AGP 9.1.0 + Kotlin 2.4.0-Beta | Kotlin 2.4 是 beta 版；AGP 9.1 需要它。为稳定选择 Kotlin 2.3 |
-| DI 框架 | 手动（无库） | Hilt | Hilt 为单人应用增加复杂性（Dagger、kapt/ksp）。从简单开始 |
+`kotlin-android` 插件 | KAPT | ViewBinding/DataBinding | Hilt/Dagger | Retrofit/OkHttp
+
 ## 版本目录 (`gradle/libs.versions.toml`)
-# Compose BOM 及其管理的依赖
-# 导航
-# Room
-# DataStore
-# 闪屏
-# Markdown (compose-richtext)
-## Gradle 配置
-### 项目级 `build.gradle.kts`
-### 模块级 `app/build.gradle.kts`
-### `gradle.properties`
-### `settings.gradle.kts`
-## 关键设计决策
-### 1. AGP 9.0.x（非 8.x）
-### 2. Kotlin 2.3.20（非 2.4 Beta）
-### 3. Room 2.8.4（非 3.0）
-### 4. Navigation Compose 2.9.8
-### 5. Android 16 强制边到边
+包含所有依赖声明。通过 `alias(libs.*)` 引用。
+
+## Gradle 关键配置
+- AGP 9.x 内置 Kotlin 支持，不需要 `kotlin-android` 插件
+- Compose 编译器通过 `org.jetbrains.kotlin.plugin.compose` 启用
+- KSP 用于 Room 注解处理 (`ksp(libs.room.compiler)`)
+- `android.overridePathCheck=true` — 项目路径含中文
+- `android.experimental.enableAarMetadataCheck=false` — MIUIX 要求 compileSdk 37
+
+## 关键设计决策 (实际落地)
+### 1. AGP 9.2.1 (非 9.0.28)
+9.0.28 在发布时将信息不可用，9.2.1 为最新稳定版，需要 Gradle 9.4.1+
+
+### 2. Kotlin 2.3.21 (非 2.3.20)
+MIUIX v0.9.1 要求 Kotlin 2.3.21。2.3.21 是补丁版本，无破坏性变更
+
+### 3. MIUIX 主题驱动 + Material3 兜底
+MIUIX 使用 `CompositionLocalProvider` 直接提供主题，不包装 MaterialTheme。
+`ZhiYuTheme` 中 `MaterialTheme` 在 `MiuixTheme` 外层，确保两边组件都看到正确的主题值。
+
+### 4. compileSdk 37 (预览版)
+MIUIX 0.9.0/0.9.1 需要 compileSdk 37。使用 `build-tools;37.0.0` + `platforms;android-37.0`。
+
+### 5. 闪屏使用平台 API
+compileSdk 37 下 `core-splashscreen` 类路径冲突。使用 `Activity.getSplashScreen()` 平台 API。
+
 ### 6. MIUI 设计定制
-- **字体:** 通过 Material3 的 `Typography` 使用 `mi-sans` 或类似圆角无衬线字体
-- **颜色:** MIUI 强调色为暖橙红色 (`#FF6B35`)；主表面为浅灰白色
-- **底部 Tab:** MIUI 风格大图标，支持角标
-- **圆角:** 高 `M3Shape` 圆角值（卡片 16dp-24dp，底部弹窗 28dp）
-- **状态栏:** 透明（Android 16 强制要求），支持深色/浅色文字着色
-### 7. Compose 编译器（Kotlin 插件）
-## Android Studio 兼容性
-| 组件 | 所需版本 |
-|-----------|-----------------|
-| Android Studio | **Otter (2025.2.1)** 或更高版本（支持 AGP 9.0+） |
-| Gradle JDK | JetBrains Runtime 17+ 或 Oracle JDK 17+ |
-## 模块结构（推荐）
-## 参考来源
-| 来源 | 链接 | 可信度 |
-|--------|-----|------------|
-| Compose BOM 2026.04.01 公告 | https://android-developers.googleblog.com/2026/04/jetpack-compose-april-2026-updates.html | 高 |
-| AGP 9.0 发布说明 | https://developer.android.com/build/releases/agp-9-0-0-release-notes | 高 |
-| AGP 9.1.0 发布说明 | https://developer.android.com/build/releases/agp-9-1-0-release-notes | 高 |
-| AGP/Kotlin 兼容性表 | https://developer.android.com/build/kotlin-support | 高 |
-| Room 发布 | https://developer.android.com/jetpack/androidx/releases/room | 高 |
-| Navigation Compose | https://developer.android.com/develop/ui/compose/navigation | 高 |
-| DataStore 发布 | https://developer.android.com/jetpack/androidx/releases/datastore | 高 |
-| SplashScreen API | https://developer.android.com/develop/ui/views/launch/splash-screen | 高 |
-| Core SplashScreen 发布 | https://developer.android.com/jetpack/androidx/releases/core | 高 |
-| Kotlin 2.3.20 发布 | https://github.com/JetBrains/kotlin/releases | 高 |
-| KSP 2.3.6 发布 | https://github.com/google/ksp/releases | 高 |
-| Gradle 9.3.0 发布说明 | https://docs.gradle.org/9.3.0/release-notes.html | 高 |
-| compose-richtext | https://github.com/halilozercan/compose-richtext | 中（alpha） |
-| compose-richtext Maven | https://halilibo.com/compose-richtext | 中（alpha） |
-| AGP 9 内置 Kotlin（JetBrains 博客） | https://blog.jetbrains.com/kotlin/2026/01/update-your-projects-for-agp9/ | 高 |
-| Android 16 强制边到边 | https://developer.android.com/about/versions/16/behavior-changes-16 | 高 |
-| Android 16 特性与 API | https://developer.android.com/about/versions/16/features | 高 |
-## 可信度评估
-| 领域 | 级别 | 原因 |
-|------|-------|--------|
-| AGP / Gradle / Kotlin 版本 | 高 | 已验证官方兼容性表 |
-| Compose BOM 和 Jetpack 库 | 高 | 官方 Android Developers Blog 和文档 |
-| Room + KSP | 高 | 官方发布说明，稳定版本 |
-| Navigation Compose | 高 | 官方文档，稳定版本 |
-| DataStore | 高 | 官方文档，稳定版本 |
-| SplashScreen | 高 | 官方文档，稳定版本 |
-| compose-richtext | 中 | 1.0 前 alpha 版；API 可能变化。替代方案为 `jeziellago/compose-markdown`（JitPack，维护较少） |
-| MIUI 设计通过 Material3 实现 | 低 | 无官方 MIUI Compose 设计套件；基于视觉近似 |
-## 阶段特定注意事项
-| 阶段 | 注意事项 |
-|-------|---------|
-| 构建配置 | 在固定版本前验证 AGP 9.0.x 补丁版本支持 Kotlin 2.3.x。9.0.28+ 阈值来自 AGP/Kotlin 兼容性页面 |
-| 闪屏 | Android 16 强制边到边。闪屏必须处理系统栏插入 |
-| 导航 | 在底部导航项上使用 `saveState = true` / `restoreState = true` 以保持切换时标签页状态 |
-| Markdown | compose-richtext 是 alpha 版；早期测试边缘渲染情况（代码块、图片、表格）。准备回退到基于 WebView 的渲染方案 |
-| Room | 尽早定义实体和 DAO；在添加数据前测试迁移 |
+- 颜色: MIUI 暖橙 `#FF6B35` (亮色) / `#FF8A50` (暗色)
+- 圆角: 4dp-24dp (卡片 16dp，底部弹窗 28dp)
+- 间距: 8 点网格 (4, 8, 16, 24, 32, 48, 64 dp)
+- 状态栏: 透明 (Android 16 强制)
+
+### 7. Room FTS4
+使用 `TOKENIZER_UNICODE61` (ICU 在 Android SQLite 中不可用)。独立 FTS4 实体，不使用 `contentEntity`。
 <!-- GSD:stack-end -->
 
 <!-- GSD:conventions-start source:CONVENTIONS.md -->
 ## 约定
 
-约定尚未建立。将在开发过程中随模式出现后补充。
+### 代码风格
+- Compose 代码使用 PascalCase 命名可组合函数
+- Room 实体使用 `Long` 类型主键，不使 `Int`
+- 使用 JOIN 查询而非 `@Relation` 避免 N+1 问题
+- DataStore Flow 必须加 `.flowOn(Dispatchers.IO)` + `.distinctUntilChanged()`
+- ViewModel 使用 `StateFlow<UiState>` 不可变状态模型
+
+### 包结构 (feature-first)
+```
+com.zhiyu.app/
+├── MainActivity.kt          # 单 Activity 入口
+├── ZhiYuApplication.kt      # Koin 初始化
+├── navigation/              # 路由定义 + NavHost
+├── di/                      # Koin 模块
+├── model/                   # 共享模型
+├── data/
+│   ├── local/               # Room (database, dao, entity, converter)
+│   └── preferences/         # DataStore 包装器
+├── ui/
+│   ├── theme/               # Color, Type, Shape, Dimens, Theme
+│   ├── screens/
+│   │   ├── info/            # 信息 Tab (Dashboard)
+│   │   ├── knowledge/       # 知识库 Tab (Article CRUD, Markdown)
+│   │   ├── discover/        # 发现 Tab (工具集合)
+│   │   └── profile/         # 我的 Tab (设置, 关于)
+│   └── components/          # 共享可组合组件
+```
+
+### 导航约定
+- 使用 `@Serializable` 类型安全路由
+- Bottom Tab 使用 `launchSingleTop = true` + `restoreState = true`
+- 子路由使用 `toRoute<T>()` 读取参数
+
+### 提交风格
+- 使用 Conventional Commits 格式: `feat|fix|docs(scope): message`
+- 保持主题行 ≤ 50 字符
+
+### 代理执行规则
+- 子任务必须使用 `isolation: "worktree"` 避免并行 agent 冲突
+- 修改代码前先评估当前实现，避免替换方案
+- 禁止用 try-catch 隐藏错误
+
 <!-- GSD:conventions-end -->
 
 <!-- GSD:architecture-start source:ARCHITECTURE.md -->
 ## 架构
 
-架构尚未映射。请遵循代码库中已有的模式。
+### 模式: MVVM + UDF
+```
+UI (Composable) → ViewModel (StateFlow<UiState>) → Repository → Room DAO / DataStore
+```
+
+### 依赖顺序
+```
+ZhiYuTheme → Koin → Room DB + DataStore → DAOs → Repositories → ViewModels → Screens → MainActivity
+```
+
+### 主题树
+```
+ZhiYuTheme(themeMode)
+├── MaterialTheme (colorScheme, typography, shapes)  ← 外层: Material3 组件
+│   └── MiuixTheme (colors, textStyles)              ← 内层: MIUIX 组件
+│       └── Scaffold (MIUIX)
+│           ├── TopAppBar (MIUIX)
+│           ├── NavigationBar (MIUIX) + NavigationBarItem
+│           └── NavHost
+│               ├── InfoScreen
+│               ├── KnowledgeScreen
+│               ├── DiscoverScreen
+│               └── ProfileScreen
+```
+
+### Koin 模块
+- **AppModule**: Room 数据库单例, 4 个 DAO, AppPreferences
+- **RepositoryModule**: ArticleRepository (Phase 4)
+- **ViewModelModule**: InfoViewModel, KnowledgeViewModel, ArticleDetailViewModel, EditorViewModel, ProfileViewModel
+
+### 数据流
+- Room DAO 返回 `Flow<T>` 用于读取, `suspend` 用于写入
+- DataStore 通过 Flow 实现设置即时生效
+- 主题切换(`ThemeMode.SYSTEM/LIGHT/DARK`) 通过 DataStore Flow 传播
+
+### 渲染需求注意事项
+- 实时时钟隔离在 InfoViewModel 的 `flow { while(true) { ...; delay(1000) } }` 中
+- Markdown 编辑器自动保存: 每5秒保存草稿到 Room
+- FTS4 搜索: 300ms debounce + unicode61 tokenizer
+
 <!-- GSD:architecture-end -->
 
 <!-- GSD:skills-start source:skills/ -->
