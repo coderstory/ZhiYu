@@ -9,11 +9,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.zhiyu.app.data.preferences.AppPreferences
 import com.zhiyu.app.model.ThemeMode
+import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import top.yukonga.miuix.kmp.basic.Icon
 import top.yukonga.miuix.kmp.basic.IconButton
@@ -35,6 +37,7 @@ fun SettingsScreen(
 ) {
     val appPreferences: AppPreferences = koinInject()
     val themeMode by appPreferences.themeMode.collectAsState(initial = ThemeMode.SYSTEM)
+    val coroutineScope = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxSize()) {
         SmallTopAppBar(
@@ -60,7 +63,7 @@ fun SettingsScreen(
             RadioButtonPreference(
                 title = "跟随系统",
                 selected = themeMode == ThemeMode.SYSTEM,
-                onClick = { appPreferences.setThemeMode(ThemeMode.SYSTEM) },
+                onClick = { coroutineScope.launch { appPreferences.setThemeMode(ThemeMode.SYSTEM) } },
                 radioButtonLocation = RadioButtonLocation.End,
                 startAction = {
                     Box(
@@ -80,7 +83,7 @@ fun SettingsScreen(
             RadioButtonPreference(
                 title = "浅色模式",
                 selected = themeMode == ThemeMode.LIGHT,
-                onClick = { appPreferences.setThemeMode(ThemeMode.LIGHT) },
+                onClick = { coroutineScope.launch { appPreferences.setThemeMode(ThemeMode.LIGHT) } },
                 radioButtonLocation = RadioButtonLocation.End,
                 startAction = {
                     Box(
@@ -100,7 +103,7 @@ fun SettingsScreen(
             RadioButtonPreference(
                 title = "深色模式",
                 selected = themeMode == ThemeMode.DARK,
-                onClick = { appPreferences.setThemeMode(ThemeMode.DARK) },
+                onClick = { coroutineScope.launch { appPreferences.setThemeMode(ThemeMode.DARK) } },
                 radioButtonLocation = RadioButtonLocation.End,
                 startAction = {
                     Box(
