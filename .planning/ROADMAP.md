@@ -13,7 +13,7 @@
 - [ ] **Phase 1: Foundation** — Project scaffolding, Gradle config, Koin DI, Room + DataStore, MIUIX integration, MIUI theme with CJK font fallback, Splash Screen
 - [ ] **Phase 2: Navigation Shell** — Bottom 4-tab NavHost, Scaffold wiring, Edge-to-Edge, tab state preservation
 - [ ] **Phase 3: Info Dashboard** — 信息 Tab with real-time clock, date/weekday display, 18:00 countdown with after-hours/weekend states
-- [ ] **Phase 4: Knowledge Base + Quick Notes** — 知识库 Tab with article CRUD, categories/tags, Markdown editor/preview, FTS4 full-text search; 小记 feature
+- [x] **Phase 4: Knowledge Base + Quick Notes** — 知识库 Tab with article CRUD, categories/tags, Markdown editor/preview, FTS4 full-text search; 小记 feature
 - [ ] **Phase 5: Profile + Settings + Tools** — 我的 Tab with profile, settings (theme/dark mode), about page; 发现 Tab with tool collection (calendar, calculator, weather)
 - [ ] **Phase 6: Build & Release** — ProGuard/R8 config, APK/AAB generation, final verification
 
@@ -164,7 +164,7 @@
 | 1. Foundation | 4/4 | In Progress|  |
 | 2. Navigation Shell | 0/0 | Not started | - |
 | 3. Info Dashboard | 0/0 | Not started | - |
-| 4. Knowledge Base + Quick Notes | 0/0 | Not started | - |
+| 4. Knowledge Base + Quick Notes | 1/1 | Complete | |
 | 5. Profile + Settings + Tools | 0/0 | Not started | - |
 | 6. Build & Release | 0/0 | Not started | - |
 

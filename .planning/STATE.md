@@ -80,13 +80,18 @@ progress:
 | All 5 entities created upfront with schema version 1 | Avoids schema migration churn | Implementation |
 | FTS4 uses TOKENIZER_UNICODE61, not ICU | ICU tokenizer unavailable on Android SQLite | Implementation |
 | MaterialTheme nests MiuixTheme | MIUIX uses CompositionLocalProvider | Implementation |
+| ArticleWithCategory JOIN DTO (not @Relation) for N+1 prevention | Room @Relation triggers N+1 query pattern on lists; explicit JOIN queries with DTO class are more performant | Implementation |
 | miuix-preference added for ArrowPreference/RadioButtonPreference | MIUI-styled settings UI | Implementation |
+| Editor auto-save via while-true delay(5000) loop | Periodic saving more predictable than change-based debounce for process-death prevention | Implementation |
+| Quick notes integrated inline in KnowledgeScreen card section | Avoids separate tab/screen; keeps UI simple | Implementation |
+| First-insert-then-update pattern for new article editor | Needs Room ID after insert before subsequent saves can update | Implementation |
 
 ### Open TODOs
 
-- Choose Markdown library
-- Obtain real subsetted Noto Sans SC
-- Test on physical Xiaomi/Redmi device
+- Wire compose-richtext for proper Markdown rendering (currently plain text fallback)
+- Resolve 4 build warnings: ArrowBack deprecation (Icons.AutoMirrored), menuAnchor() deprecation, @OptIn(FlowPreview)
+- Obtain real subsetted Noto Sans SC (~1-3MB) to replace placeholder in res/font/ before release
+- Test on physical Xiaomi/Redmi device before Phase 6 release
 
 ### Known Blockers
 
@@ -98,16 +103,19 @@ None yet.
 
 ### Next Session
 
-1. Complete Phase 2 (Navigation Shell) or continue Phase 4 (Knowledge Base)
-2. Proceed to Phase 6 (Build & Release)
+1. Complete Phase 2 (Navigation Shell) or Phase 3 (Info Dashboard) if not yet done
+2. After all phases complete, proceed to Phase 6 (Build & Release)
 
 ### Handoff Notes
 
 - **Phase 1** (Foundation) -- Complete. Gradle, Room, DataStore, Koin, theme, splash, MainActivity
-- **Phase 4** (Knowledge Base) -- In Progress. ArticleDao, ArticleRepository, ViewModels, Screens
+- **Phase 4** (Knowledge Base + Quick Notes) -- Complete. Article CRUD, Markdown editor with auto-save, FTS4 search, categories/tags, inline quick notes
 - **Phase 5** (Profile + Settings + Tools) -- Complete. ProfileScreen, SettingsScreen (theme picker), AboutScreen, DiscoverScreen (tool grid), ProfileViewModel, ToolsViewModel, navigation routes, miuix-preference dependency
 - SettingsScreen writes theme via coroutineScope.launch { appPreferences.setThemeMode() }
 - Tools are stub-level for v1 (onClick no-ops)
+- Phase 4 files: ArticleRepository, KnowledgeViewModel, ArticleDetailViewModel, EditorViewModel, KnowledgeScreen (rewrite), ArticleDetailScreen, ArticleEditorScreen, JOIN queries in ArticleDao, ZhiYuRoutes additions, DI wiring
+- Phase 4 SUMMARY: `.planning/phases/04-knowledge/04-01-SUMMARY.md`
+- compose-richtext declared but uses plain text fallback for Markdown rendering
 
 ---
 
