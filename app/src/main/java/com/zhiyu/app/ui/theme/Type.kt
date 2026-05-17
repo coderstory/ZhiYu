@@ -20,16 +20,16 @@ import top.yukonga.miuix.kmp.theme.defaultTextStyles
 fun rememberCJKFallbackFontFamily(): FontFamily {
     val context = LocalContext.current
     return remember {
-        val notoSansSC = try {
-            Font.Builder(context.resources, R.font.noto_sans_sc_subset).build()
+        try {
+            val notoSansSC = Font.Builder(context.resources, R.font.noto_sans_sc_subset).build()
+            val platformFontFamily = PlatformFontFamily.Builder(notoSansSC).build()
+            val platformTypeface = Typeface.CustomFallbackBuilder(platformFontFamily)
+                .setSystemFallback("sans-serif")
+                .build()
+            FontFamily(typeface = platformTypeface)
         } catch (e: Exception) {
-            return@remember FontFamily.Default
+            FontFamily.Default
         }
-        val platformFontFamily = PlatformFontFamily.Builder(notoSansSC).build()
-        val platformTypeface = Typeface.CustomFallbackBuilder(platformFontFamily)
-            .setSystemFallback("sans-serif")
-            .build()
-        FontFamily(typeface = platformTypeface)
     }
 }
 
