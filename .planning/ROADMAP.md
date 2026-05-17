@@ -29,13 +29,19 @@
 
 **Success Criteria** (what must be TRUE):
 
-1. Project builds successfully with AGP 9.0.28, Kotlin 2.3.20, Compose BOM 2026.04.01 via version catalog (`gradle/libs.versions.toml`)
+1. Project builds successfully with AGP 9.0.28, Kotlin 2.3.21, Compose BOM 2026.04.01 via version catalog (`gradle/libs.versions.toml`)
 2. Koin initializes on app startup with AppModule, RepositoryModule, and ViewModelModule wired correctly; ViewModels can be injected via `koinViewModel()`
 3. MIUI-styled Material3 theme renders Chinese text correctly with CJK font fallback (Typeface.CustomFallbackBuilder + bundled Noto Sans SC) -- no tofu characters on any screen
 4. Room database schema (all entities: Article, Category, Tag, ArticleTagCrossRef, QuickNote) and DataStore Preferences are initialized and ready for read/write
 5. Splash screen displays on cold start via AndroidX SplashScreen API (`installSplashScreen()` before `super.onCreate()`) and dismisses only after DataStore is ready, with no white flash on MIUI devices
 
-**Plans**: TBD
+**Plans**: 4 plans
+
+**Plan list:**
+- [ ] `01-01-PLAN.md` — Build System Foundation (version catalog, Gradle config, manifest, resources)
+- [ ] `01-02-PLAN.md` — Data Layer + DI Wiring (Room entities, DAOs, Database, DataStore, Koin modules)
+- [ ] `01-03-PLAN.md` — MIUI Theme System + CJK Font Fallback (Color, Type, Shape, Dimens, Theme)
+- [ ] `01-04-PLAN.md` — Splash Screen + MainActivity + FoundationPlaceholder
 
 **UI hint**: yes
 
@@ -147,13 +153,15 @@
 
 **Plans**: TBD
 
+**UI hint**: yes
+
 ---
 
 ## Progress Table
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/0 | Not started | - |
+| 1. Foundation | 0/4 | Planned | - |
 | 2. Navigation Shell | 0/0 | Not started | - |
 | 3. Info Dashboard | 0/0 | Not started | - |
 | 4. Knowledge Base + Quick Notes | 0/0 | Not started | - |
