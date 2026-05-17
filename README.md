@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="app/src/main/res/drawable/ic_launcher_foreground.xml" alt="ZhiYu" width="96" height="96" style="max-width: 96px;">
-</p>
-
 <h1 align="center">知屿 · ZhiYu</h1>
 
 <p align="center">
