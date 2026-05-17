@@ -4,9 +4,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
-import top.yukonga.miuix.kmp.theme.MIUIColorScheme
-import top.yukonga.miuix.kmp.theme.darkColorScheme as miuixDarkColorScheme
+import top.yukonga.miuix.kmp.theme.Colors
 import top.yukonga.miuix.kmp.theme.lightColorScheme as miuixLightColorScheme
+import top.yukonga.miuix.kmp.theme.darkColorScheme as miuixDarkColorScheme
 
 // =============================================================================
 // MIUI Primary Accent Constants
@@ -53,7 +53,7 @@ val DividerLineDark = Color(0xFF393939)
 // MIUIX Color Schemes
 // =============================================================================
 
-fun miuiLightColorScheme(): MIUIColorScheme = miuiLightColorScheme(
+fun miuiLightColors(): Colors = miuixLightColorScheme().copy(
     primary = MIUI_Warm_Orange,
     onPrimary = Color.White,
     primaryContainer = PrimaryContainerLight,
@@ -70,8 +70,8 @@ fun miuiLightColorScheme(): MIUIColorScheme = miuiLightColorScheme(
     dividerLine = DividerLineLight
 )
 
-fun miuiDarkColorScheme(): MIUIColorScheme = miuiDarkColorScheme(
-    primary = MIUI_Warm_Orange_Dark,
+fun miuiDarkColors(): Colors = miuixDarkColorScheme().copy(
+    primary = Color(0xFFFF8A50),
     onPrimary = Color.White,
     primaryContainer = PrimaryContainerDark,
     onPrimaryContainer = OnPrimaryContainerDark,
@@ -111,7 +111,7 @@ fun zhiyuLightColorScheme(): ColorScheme = lightColorScheme(
 )
 
 fun zhiyuDarkColorScheme(): ColorScheme = darkColorScheme(
-    primary = MIUI_Warm_Orange_Dark,
+    primary = Color(0xFFFF8A50),
     onPrimary = Color.White,
     primaryContainer = PrimaryContainerDark,
     onPrimaryContainer = OnPrimaryContainerDark,

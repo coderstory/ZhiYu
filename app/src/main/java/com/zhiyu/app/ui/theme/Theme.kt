@@ -6,26 +6,6 @@ import androidx.compose.runtime.Composable
 import com.zhiyu.app.model.ThemeMode
 import top.yukonga.miuix.kmp.theme.MiuixTheme
 
-/**
- * Root theme composable for the ZhiYu app.
- *
- * Nesting order (critical for correct rendering):
- * ```
- * MaterialTheme (colorScheme, typography, shapes)   ← OUTER: provides Material3 context
- *   └── MiuixTheme (colorScheme, textStyles)        ← INNER: provides MIUIX context
- *        └── content()
- * ```
- *
- * [MaterialTheme] wraps [MiuixTheme] because MIUIX uses [CompositionLocalProvider]
- * directly and does NOT wrap [MaterialTheme]. Material3 components (Scaffold,
- * NavigationBar, etc.) from downstream phases require [MaterialTheme] context.
- * Nesting [MaterialTheme] outside [MiuixTheme] ensures both component sets see
- * the correct theme values.
- *
- * @param themeMode Theme mode: SYSTEM (follow system), LIGHT, or DARK.
- *                  Defaults to SYSTEM to follow device-wide dark mode setting.
- * @param content The composable content tree to be themed.
- */
 @Composable
 fun ZhiYuTheme(
     themeMode: ThemeMode = ThemeMode.SYSTEM,
@@ -37,7 +17,7 @@ fun ZhiYuTheme(
         ThemeMode.LIGHT -> false
     }
 
-    val miuiColors = if (isDark) miuiDarkColorScheme() else miuiLightColorScheme()
+    val miuiColors = if (isDark) miuiDarkColors() else miuiLightColors()
     val materialColors = if (isDark) zhiyuDarkColorScheme() else zhiyuLightColorScheme()
 
     val cjkTextStyle = cjkTextStyles
@@ -49,7 +29,7 @@ fun ZhiYuTheme(
         shapes = miuiShapes
     ) {
         MiuixTheme(
-            colorScheme = miuiColors,
+            colors = miuiColors,
             textStyles = cjkTextStyle
         ) {
             content()
