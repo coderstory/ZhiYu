@@ -9,55 +9,53 @@ import top.yukonga.miuix.kmp.theme.lightColorScheme as miuixLightColorScheme
 import top.yukonga.miuix.kmp.theme.darkColorScheme as miuixDarkColorScheme
 
 // =============================================================================
-// MIUI Primary Accent Constants
+// Tech Blue Primary Accent
 // =============================================================================
 
-val MIUI_Warm_Orange = Color(0xFFFF6B35)
-val MIUI_Warm_Orange_Dark = Color(0xFFFF8A50)
+val TechBlue = Color(0xFF1677FF)
+val TechBlueDark = Color(0xFF4096FF)
+val TechBlueContainer = Color(0xFFE6F4FF)
+val OnTechBlueContainer = Color(0xFF003EB3)
 
 // =============================================================================
 // Light Theme Colors
 // =============================================================================
 
-val PrimaryContainerLight = Color(0xFFFFF0E6)
-val OnPrimaryContainerLight = Color(0xFF4A1800)
-val BackgroundLight = Color(0xFFFFF5F0)
+val BackgroundLight = Color(0xFFF5F7FA)
 val OnBackgroundLight = Color(0xFF1A1A1A)
 val SurfaceLight = Color(0xFFFFFFFF)
 val OnSurfaceLight = Color(0xFF1A1A1A)
-val SurfaceVariantLight = Color(0xFFFFF5F0)
+val SurfaceVariantLight = Color(0xFFF5F7FA)
 val OnSurfaceSecondaryLight = Color(0xFF8C8C8C)
 val ErrorLight = Color(0xFFE53935)
 val OnErrorLight = Color(0xFFFFFFFF)
 val OutlineLight = Color(0xFFD9D9D9)
-val DividerLineLight = Color(0xFFE0E0E0)
+val DividerLineLight = Color(0xFFE8E8E8)
 
 // =============================================================================
 // Dark Theme Colors
 // =============================================================================
 
-val PrimaryContainerDark = Color(0xFF4A2810)
-val OnPrimaryContainerDark = Color(0xFFFFDCC4)
-val BackgroundDark = Color(0xFF1A1A1A)
+val BackgroundDark = Color(0xFF141414)
 val OnBackgroundDark = Color(0xFFF2F2F2)
-val SurfaceDark = Color(0xFF000000)
+val SurfaceDark = Color(0xFF1E1E1E)
 val OnSurfaceDark = Color(0xFFF2F2F2)
-val SurfaceVariantDark = Color(0xFF242424)
+val SurfaceVariantDark = Color(0xFF2A2A2A)
 val OnSurfaceSecondaryDark = Color(0xFFA6A6A6)
 val ErrorDark = Color(0xFFEF5350)
 val OnErrorDark = Color(0xFFFFFFFF)
 val OutlineDark = Color(0xFF404040)
-val DividerLineDark = Color(0xFF393939)
+val DividerLineDark = Color(0xFF333333)
 
 // =============================================================================
 // MIUIX Color Schemes
 // =============================================================================
 
 fun miuiLightColors(): Colors = miuixLightColorScheme().copy(
-    primary = MIUI_Warm_Orange,
+    primary = TechBlue,
     onPrimary = Color.White,
-    primaryContainer = PrimaryContainerLight,
-    onPrimaryContainer = OnPrimaryContainerLight,
+    primaryContainer = TechBlueContainer,
+    onPrimaryContainer = OnTechBlueContainer,
     background = BackgroundLight,
     onBackground = OnBackgroundLight,
     surface = SurfaceLight,
@@ -71,10 +69,10 @@ fun miuiLightColors(): Colors = miuixLightColorScheme().copy(
 )
 
 fun miuiDarkColors(): Colors = miuixDarkColorScheme().copy(
-    primary = Color(0xFFFF8A50),
+    primary = TechBlueDark,
     onPrimary = Color.White,
-    primaryContainer = PrimaryContainerDark,
-    onPrimaryContainer = OnPrimaryContainerDark,
+    primaryContainer = Color(0xFF002966),
+    onPrimaryContainer = Color(0xFFD6E9FF),
     background = BackgroundDark,
     onBackground = OnBackgroundDark,
     surface = SurfaceDark,
@@ -88,15 +86,15 @@ fun miuiDarkColors(): Colors = miuixDarkColorScheme().copy(
 )
 
 // =============================================================================
-// Material3 Color Schemes (for MaterialTheme layer)
+// Material3 Color Schemes
 // =============================================================================
 
 fun zhiyuLightColorScheme(): ColorScheme = lightColorScheme(
-    primary = MIUI_Warm_Orange,
+    primary = TechBlue,
     onPrimary = Color.White,
-    primaryContainer = PrimaryContainerLight,
-    onPrimaryContainer = OnPrimaryContainerLight,
-    secondary = Color(0xFFFF8A50),
+    primaryContainer = TechBlueContainer,
+    onPrimaryContainer = OnTechBlueContainer,
+    secondary = Color(0xFF4096FF),
     onSecondary = Color.White,
     background = BackgroundLight,
     onBackground = OnBackgroundLight,
@@ -111,12 +109,12 @@ fun zhiyuLightColorScheme(): ColorScheme = lightColorScheme(
 )
 
 fun zhiyuDarkColorScheme(): ColorScheme = darkColorScheme(
-    primary = Color(0xFFFF8A50),
+    primary = TechBlueDark,
     onPrimary = Color.White,
-    primaryContainer = PrimaryContainerDark,
-    onPrimaryContainer = OnPrimaryContainerDark,
-    secondary = Color(0xFFFFA570),
-    onSecondary = Color.Black,
+    primaryContainer = Color(0xFF002966),
+    onPrimaryContainer = Color(0xFFD6E9FF),
+    secondary = Color(0xFF4096FF),
+    onSecondary = Color.White,
     background = BackgroundDark,
     onBackground = OnBackgroundDark,
     surface = SurfaceDark,

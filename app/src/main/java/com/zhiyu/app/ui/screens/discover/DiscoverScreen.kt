@@ -1,7 +1,6 @@
 package com.zhiyu.app.ui.screens.discover
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,23 +27,16 @@ import top.yukonga.miuix.kmp.theme.MiuixTheme
 fun DiscoverScreen(
     tools: List<ToolEntry> = ToolsViewModel.tools
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        top.yukonga.miuix.kmp.basic.TopAppBar(
-            title = "发现",
-            largeTitle = "发现"
-        )
-
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = Spacing.md),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.sm),
-            verticalArrangement = Arrangement.spacedBy(Spacing.sm)
-        ) {
-            items(tools) { tool ->
-                ToolCard(tool = tool)
-            }
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = Spacing.md),
+        horizontalArrangement = Arrangement.spacedBy(Spacing.sm),
+        verticalArrangement = Arrangement.spacedBy(Spacing.sm)
+    ) {
+        items(tools) { tool ->
+            ToolCard(tool = tool)
         }
     }
 }
@@ -57,7 +49,7 @@ private fun ToolCard(
         modifier = Modifier
             .fillMaxWidth()
             .height(120.dp),
-        onClick = { /* Tool launch - stubbed for v1 */ }
+        onClick = { }
     ) {
         Column(
             modifier = Modifier
