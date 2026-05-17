@@ -11,6 +11,7 @@ koin = "4.2.1"
 miuix = "0.9.1"
 compose-richtext = "1.0.0-alpha03"
 kotlinx-serialization-json = "1.8.1"
+lifecycle = "2.9.0"
 
 [libraries]
 # MIUIX
@@ -19,6 +20,10 @@ miuix-icons = { group = "top.yukonga.miuix.kmp", name = "miuix-icons", version.r
 
 # Kotlinx Serialization
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
+
+# ViewModel / Lifecycle
+androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 
 # Compose BOM and managed dependencies
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }

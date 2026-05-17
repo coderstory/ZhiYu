@@ -4,7 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.runtime.getValue
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -50,7 +56,7 @@ class MainActivity : ComponentActivity() {
                 ZhiYuRoutes.Discover::class.qualifiedName,
                 ZhiYuRoutes.Profile::class.qualifiedName,
             )
-            val selectedIndex = routes.indexOfFirst { currentRoute?.contains(it) == true }.coerceAtLeast(0)
+            val selectedIndex = routes.indexOfFirst { it != null && currentRoute?.contains(it) == true }.coerceAtLeast(0)
 
             ZhiYuTheme(themeMode = themeMode) {
                 Scaffold(
@@ -76,7 +82,7 @@ class MainActivity : ComponentActivity() {
                 ) { paddingValues ->
                     AppNavigation(
                         navController = navController,
-                        modifier = androidx.compose.ui.Modifier.padding(paddingValues)
+                        modifier = Modifier.padding(paddingValues)
                     )
                 }
             }
