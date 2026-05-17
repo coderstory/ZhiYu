@@ -2,6 +2,7 @@ package com.zhiyu.app.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 
 @Entity(
     tableName = "article_tag_cross_ref",
@@ -19,6 +20,10 @@ import androidx.room.ForeignKey
             childColumns = ["tagId"],
             onDelete = ForeignKey.CASCADE
         )
+    ],
+    indices = [
+        Index("tagId"),
+        Index("articleId")
     ]
 )
 data class ArticleTagCrossRef(
