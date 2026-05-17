@@ -4,9 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -41,6 +43,15 @@ class MainActivity : ComponentActivity() {
             val appPreferences: AppPreferences = org.koin.compose.koinInject()
             val themeMode by appPreferences.themeMode.collectAsState(initial = ThemeMode.SYSTEM)
 
+            val isDark = when (themeMode) {
+                ThemeMode.SYSTEM -> isSystemInDarkTheme()
+                ThemeMode.DARK -> true
+                ThemeMode.LIGHT -> false
+            }
+            androidx.core.view.WindowCompat.getInsetsController(
+                window, window.decorView
+            ).isAppearanceLightStatusBars = !isDark
+
             val navController = rememberNavController()
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry?.destination?.route
@@ -61,7 +72,7 @@ class MainActivity : ComponentActivity() {
             val selectedIndex = tabRoutes.indexOfFirst { it != null && currentRoute?.contains(it) == true }.coerceAtLeast(0)
 
             // Determine title and back button visibility
-            val isTabRoot = tabRoutes.any { currentRoute?.contains(it) == true }
+            val isTabRoot = tabRoutes.any { it != null && currentRoute?.contains(it) == true }
             val title = when {
                 currentRoute?.contains(ZhiYuRoutes.Settings::class.qualifiedName ?: "") == true -> "设置"
                 currentRoute?.contains(ZhiYuRoutes.About::class.qualifiedName ?: "") == true -> "关于"
@@ -70,16 +81,14 @@ class MainActivity : ComponentActivity() {
                 isTabRoot -> tabTitles[selectedIndex]
                 else -> "知屿"
             }
-            val showBack = !isTabRoot
-
             ZhiYuTheme(themeMode = themeMode) {
                 Scaffold(
                     contentWindowInsets = WindowInsets.navigationBars,
                     topBar = {
                         TopAppBar(
                             title = title,
-                            navigationIcon = if (showBack) {
-                                {
+                            navigationIcon = {
+                                if (!isTabRoot) {
                                     IconButton(onClick = { navController.popBackStack() }) {
                                         Icon(
                                             imageVector = MiuixIcons.Back,
@@ -87,7 +96,7 @@ class MainActivity : ComponentActivity() {
                                         )
                                     }
                                 }
-                            } else null
+                            }
                         )
                     },
                     bottomBar = {

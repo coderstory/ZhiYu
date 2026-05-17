@@ -79,9 +79,7 @@ fun AppNavigation(
             )
         }
         composable<ZhiYuRoutes.About> {
-            AboutScreen(
-                onNavigateBack = { navController.popBackStack() }
-            )
+            AboutScreen()
         }
     }
 }
