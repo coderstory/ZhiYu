@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-05-17T13:46:51.455Z"
+last_updated: "2026-05-17T15:45:41.980Z"
 progress:
   total_phases: 6
   completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
-  percent: 0
+  total_plans: 4
+  completed_plans: 2
+  percent: 50
 ---
 
 # State: 知屿 (ZhiYu)
@@ -34,16 +34,16 @@ progress:
 | Property | Value |
 |----------|-------|
 | **Phase** | 1 - Foundation |
-| **Plan** | (not yet planned) |
-| **Status** | Not started |
-| **Progress** | [                    ] 0/38 requirements |
+| **Plan** | 2 - Data Layer + DI Wiring (Complete) |
+| **Status** | In Progress |
+| **Progress** | [#####               ] 3/38 requirements |
 | **Granularity** | Fine |
 
 ### Phase Details
 
 | Phase | Goal | Requirements | Status |
 |-------|------|--------------|--------|
-| 1 - Foundation | Build system, DI, data layer, theme, splash screen | FND-01~FND-09 | Not started |
+| 1 - Foundation | Build system, DI, data layer, theme, splash screen | FND-01~FND-09 | In Progress (2/4 plans) |
 | 2 - Navigation Shell | 4-tab bottom NavHost, edge-to-edge, tab state preservation | NAV-01~NAV-04 | Not started |
 | 3 - Info Dashboard | Real-time clock, date, 18:00 countdown | DSH-01~DSH-04 | Not started |
 | 4 - Knowledge Base + Quick Notes | Article CRUD, Markdown, FTS4 search, categories/tags, 小记 | KNW-01~KNW-08, QNT-01~QNT-03 | Not started |
@@ -78,6 +78,10 @@ progress:
 | MVVM + UDF | Official Android guidance; predictable state flow | Implementation |
 | DataStore (not SharedPreferences) | Modern replacement; coroutine/Flow-based | Implementation |
 | 4 bottom tabs (not 5) | PROJECT.md requirement; 小记 inside 知识库 tab | Implementation |
+| All 5 entities created upfront with schema version 1 (D-04) | Phase 1 has full entity picture; avoids schema migration churn | Implementation |
+| FTS4 uses TOKENIZER_UNICODE61, not ICU (D-05) | ICU tokenizer unavailable on Android SQLite; would crash at runtime | Implementation |
+| DataStore keys: theme_mode, last_active_tab, is_first_launch (D-06) | Pre-defined at foundation for cross-feature consistency | Implementation |
+| No auto-migration; manual migration only (D-07) | MigrationTestHelper requires exportSchema=true; auto-migration is error-prone | Implementation |
 
 ### Open TODOs
 
@@ -108,17 +112,20 @@ None yet.
 
 ### Next Session
 
-1. Run `/gsd:plan-phase 1` to decompose Phase 1 (Foundation) into executable plans
-2. Phase 1 includes: Gradle setup, version catalog, Koin modules, Room entities+DAOs, DataStore, MIUI theme with CJK font fallback, Splash Screen
+1. Execute Plan 01-03: MIUI Theme System + CJK Font Fallback (Color, Type, Shape, Dimens, Theme)
+2. Then execute Plan 01-04: Splash Screen + MainActivity + FoundationPlaceholder
+3. After all Phase 1 plans complete, proceed to Phase 2
 
 ### Handoff Notes
 
-- This is a new project with no prior execution history
-- All research is complete in `.planning/research/` (STACK.md, ARCHITECTURE.md, FEATURES.md, PITFALLS.md, SUMMARY.md)
-- Key architectural decisions are documented in SUMMARY.md and ARCHITECTURE.md
-- First task: implement Gradle build configuration per STACK.md version catalog
-- Use `top.yukonga.miuix.kmp:miuix-ui` for MIUIX library (specified in requirements, distinct from compose-miuix-ui researched in PITFALLS.md)
-- Launch command for next session: `/gsd:plan-phase 1`
+- Plan 01-01 (Build System Foundation) is complete -- Gradle config, version catalog, manifest, resources exist
+- Plan 01-02 (Data Layer + DI Wiring) is complete -- Room entities/DAOs/database, DataStore AppPreferences, 3 Koin modules, ZhiYuApplication, ThemeMode enum
+- All 18 Kotlin source files created under `com.zhiyu.app` package
+- FTS4 uses TOKENIZER_UNICODE61 (ICU unavailable on Android SQLite)
+- All AppPreferences flows use `flowOn(Dispatchers.IO)` to prevent main thread blocking
+- Koin modules: AppModule (singletons), RepositoryModule (empty stub), ViewModelModule (empty stub)
+- ZhiYuApplication registered in manifest, Koin starts in onCreate()
+- Next: Plan 01-03 creates MIUI-style Material3 theme with CJK font fallback
 
 ---
 

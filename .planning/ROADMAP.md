@@ -39,7 +39,7 @@
 
 **Plan list:**
 - [ ] `01-01-PLAN.md` — Build System Foundation (version catalog, Gradle config, manifest, resources)
-- [ ] `01-02-PLAN.md` — Data Layer + DI Wiring (Room entities, DAOs, Database, DataStore, Koin modules)
+- [x] `01-02-PLAN.md` — Data Layer + DI Wiring (Room entities, DAOs, Database, DataStore, Koin modules)
 - [ ] `01-03-PLAN.md` — MIUI Theme System + CJK Font Fallback (Color, Type, Shape, Dimens, Theme)
 - [ ] `01-04-PLAN.md` — Splash Screen + MainActivity + FoundationPlaceholder
 
@@ -161,7 +161,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/4 | Planned | - |
+| 1. Foundation | 2/4 | In Progress|  |
 | 2. Navigation Shell | 0/0 | Not started | - |
 | 3. Info Dashboard | 0/0 | Not started | - |
 | 4. Knowledge Base + Quick Notes | 0/0 | Not started | - |
@@ -176,10 +176,10 @@
 |-------------|-------|--------|
 | FND-01 | Phase 1 | Pending |
 | FND-02 | Phase 1 | Pending |
-| FND-03 | Phase 1 | Pending |
+| FND-03 | Phase 1 | Complete |
 | FND-04 | Phase 1 | Pending |
-| FND-05 | Phase 1 | Pending |
-| FND-06 | Phase 1 | Pending |
+| FND-05 | Phase 1 | Complete |
+| FND-06 | Phase 1 | Complete |
 | FND-07 | Phase 1 | Pending |
 | FND-08 | Phase 1 | Pending |
 | FND-09 | Phase 1 | Pending |
