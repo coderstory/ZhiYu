@@ -37,7 +37,6 @@ fun rememberCJKFallbackFontFamily(): FontFamily {
         val notoSansSC = ResourcesCompat.getFont(context, R.font.noto_sans_sc_subset)
             ?: return@remember FontFamily.Default
 
-        @Suppress("DEPRECATION")
         val platformFontFamily = PlatformFontFamily.Builder(
             android.graphics.Font.Builder(notoSansSC).build()
         ).build()
