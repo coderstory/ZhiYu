@@ -1,5 +1,6 @@
 package com.zhiyu.app.ui.screens.profile
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -14,14 +15,14 @@ import androidx.compose.ui.unit.dp
 import com.zhiyu.app.data.preferences.AppPreferences
 import com.zhiyu.app.model.ThemeMode
 import org.koin.compose.koinInject
-import top.yukonga.miuix.kmp.basic.Box
 import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
 import top.yukonga.miuix.kmp.basic.SmallTopAppBar
 import top.yukonga.miuix.kmp.basic.SmallTitle
 import top.yukonga.miuix.kmp.icon.MiuixIcons
 import top.yukonga.miuix.kmp.icon.extended.Back
 import top.yukonga.miuix.kmp.icon.extended.Help
-import top.yukonga.miuix.kmp.icon.extended.Theme as ThemeIcon
+import top.yukonga.miuix.kmp.icon.extended.Theme
 import top.yukonga.miuix.kmp.preference.ArrowPreference
 import top.yukonga.miuix.kmp.preference.RadioButtonLocation
 import top.yukonga.miuix.kmp.preference.RadioButtonPreference
@@ -67,7 +68,7 @@ fun SettingsScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
-                            imageVector = MiuixIcons.ThemeIcon,
+                            imageVector = MiuixIcons.Theme,
                             contentDescription = null,
                             modifier = Modifier.size(22.dp),
                             tint = MiuixTheme.colorScheme.onSurfaceVariantActions
@@ -87,7 +88,7 @@ fun SettingsScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
-                            imageVector = MiuixIcons.ThemeIcon,
+                            imageVector = MiuixIcons.Theme,
                             contentDescription = null,
                             modifier = Modifier.size(22.dp),
                             tint = MiuixTheme.colorScheme.onSurfaceVariantActions
@@ -107,7 +108,7 @@ fun SettingsScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
-                            imageVector = MiuixIcons.ThemeIcon,
+                            imageVector = MiuixIcons.Theme,
                             contentDescription = null,
                             modifier = Modifier.size(22.dp),
                             tint = MiuixTheme.colorScheme.onSurfaceVariantActions

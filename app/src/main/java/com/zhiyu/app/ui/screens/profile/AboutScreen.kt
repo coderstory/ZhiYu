@@ -1,16 +1,21 @@
 package com.zhiyu.app.ui.screens.profile
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,7 +25,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.zhiyu.app.ui.theme.Spacing
-import top.yukonga.miuix.kmp.basic.Box
 import top.yukonga.miuix.kmp.basic.Card
 import top.yukonga.miuix.kmp.basic.Icon
 import top.yukonga.miuix.kmp.basic.SmallTopAppBar
@@ -34,7 +38,7 @@ fun AboutScreen(
     onNavigateBack: () -> Unit = {}
 ) {
     val context = LocalContext.current
-    val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
+    val packageInfo = runCatching { context.packageManager.getPackageInfo(context.packageName, 0) }.getOrNull()
 
     Column(modifier = Modifier.fillMaxSize()) {
         SmallTopAppBar(
@@ -57,7 +61,6 @@ fun AboutScreen(
         ) {
             Spacer(modifier = Modifier.height(Spacing.xxl))
 
-            // App icon and name
             Box(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
@@ -98,53 +101,32 @@ fun AboutScreen(
 
             Spacer(modifier = Modifier.height(Spacing.lg))
 
-            // Version info card
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = Spacing.md),
-                insideMargin = Spacing.md,
+                insideMargin = PaddingValues(Spacing.md),
             ) {
-                AboutInfoRow(
-                    label = "版本名称",
-                    value = packageInfo.versionName ?: "1.0.0"
-                )
-                AboutInfoRow(
-                    label = "版本号",
-                    value = "${packageInfo.longVersionCode}"
-                )
-                AboutInfoRow(
-                    label = "目标SDK",
-                    value = "Android 16 (API ${packageInfo.targetSdkVersion})"
-                )
+                AboutInfoRow(label = "版本名称", value = packageInfo?.versionName ?: "1.0.0")
+                AboutInfoRow(label = "版本号", value = "${packageInfo?.longVersionCode ?: 1}")
+                AboutInfoRow(label = "目标SDK", value = "Android 16 (API 36)")
             }
 
             Spacer(modifier = Modifier.height(Spacing.md))
 
-            // License info card
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = Spacing.md),
-                insideMargin = Spacing.md,
+                insideMargin = PaddingValues(Spacing.md),
             ) {
-                AboutInfoRow(
-                    label = "开源许可",
-                    value = "Apache License 2.0"
-                )
-                AboutInfoRow(
-                    label = "开发框架",
-                    value = "Jetpack Compose + MIUIX"
-                )
-                AboutInfoRow(
-                    label = "构建配置",
-                    value = "AGP 9.2.1, Kotlin 2.3.21"
-                )
+                AboutInfoRow(label = "开源许可", value = "Apache License 2.0")
+                AboutInfoRow(label = "开发框架", value = "Jetpack Compose + MIUIX")
+                AboutInfoRow(label = "构建配置", value = "AGP 9.2.1, Kotlin 2.3.21")
             }
 
             Spacer(modifier = Modifier.height(Spacing.lg))
 
-            // Footer
             Box(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
@@ -162,10 +144,7 @@ fun AboutScreen(
 }
 
 @Composable
-private fun AboutInfoRow(
-    label: String,
-    value: String
-) {
+private fun AboutInfoRow(label: String, value: String) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
