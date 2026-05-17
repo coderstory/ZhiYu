@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-05-17T15:45:41.980Z"
+last_updated: "2026-05-17T15:51:26.735Z"
 progress:
   total_phases: 6
   completed_phases: 0
   total_plans: 4
-  completed_plans: 2
-  percent: 50
+  completed_plans: 3
+  percent: 0
 ---
 
 # State: 知屿 (ZhiYu)
@@ -34,16 +34,16 @@ progress:
 | Property | Value |
 |----------|-------|
 | **Phase** | 1 - Foundation |
-| **Plan** | 2 - Data Layer + DI Wiring (Complete) |
+| **Plan** | 3 - MIUI Theme + CJK Font (Complete) |
 | **Status** | In Progress |
-| **Progress** | [#####               ] 3/38 requirements |
+| **Progress** | [#####               ] 6/38 requirements |
 | **Granularity** | Fine |
 
 ### Phase Details
 
 | Phase | Goal | Requirements | Status |
 |-------|------|--------------|--------|
-| 1 - Foundation | Build system, DI, data layer, theme, splash screen | FND-01~FND-09 | In Progress (2/4 plans) |
+| 1 - Foundation | Build system, DI, data layer, theme, splash screen | FND-01~FND-09 | In Progress (3/4 plans) |
 | 2 - Navigation Shell | 4-tab bottom NavHost, edge-to-edge, tab state preservation | NAV-01~NAV-04 | Not started |
 | 3 - Info Dashboard | Real-time clock, date, 18:00 countdown | DSH-01~DSH-04 | Not started |
 | 4 - Knowledge Base + Quick Notes | Article CRUD, Markdown, FTS4 search, categories/tags, 小记 | KNW-01~KNW-08, QNT-01~QNT-03 | Not started |
@@ -82,11 +82,14 @@ progress:
 | FTS4 uses TOKENIZER_UNICODE61, not ICU (D-05) | ICU tokenizer unavailable on Android SQLite; would crash at runtime | Implementation |
 | DataStore keys: theme_mode, last_active_tab, is_first_launch (D-06) | Pre-defined at foundation for cross-feature consistency | Implementation |
 | No auto-migration; manual migration only (D-07) | MigrationTestHelper requires exportSchema=true; auto-migration is error-prone | Implementation |
+| MaterialTheme nests MiuixTheme (D-02) | MIUIX uses CompositionLocalProvider directly, does not wrap MaterialTheme; Material3 components need MaterialTheme context | Implementation |
+| CJK font applied per-style to all 14 MIUIX + 13 M3 roles | MiuixTheme fontFamily API not confirmed; apply via .copy(fontFamily = cjkFamily) on each TextStyle | Implementation |
+| CustomFallbackBuilder for glyph-level font fallback | Compose FontFamily treats Font entries as weight/style variants, not character-level fallback chain | Implementation |
 
 ### Open TODOs
 
 - Choose Markdown library (compose-richtext vs multiplatform-markdown-renderer) during Phase 4 planning
-- Implement CJK font fallback with bundled Noto Sans SC during Phase 1
+- Obtain real subsetted Noto Sans SC (~1-3MB) to replace placeholder in res/font/ before release
 - Define Room FTS4 schema with Chinese tokenizer consideration during Phase 4
 - Test on physical Xiaomi/Redmi device before Phase 6 release
 
@@ -112,20 +115,21 @@ None yet.
 
 ### Next Session
 
-1. Execute Plan 01-03: MIUI Theme System + CJK Font Fallback (Color, Type, Shape, Dimens, Theme)
-2. Then execute Plan 01-04: Splash Screen + MainActivity + FoundationPlaceholder
-3. After all Phase 1 plans complete, proceed to Phase 2
+1. Execute Plan 01-04: Splash Screen + MainActivity + FoundationPlaceholder
+2. After all Phase 1 plans complete, proceed to Phase 2
 
 ### Handoff Notes
 
 - Plan 01-01 (Build System Foundation) is complete -- Gradle config, version catalog, manifest, resources exist
 - Plan 01-02 (Data Layer + DI Wiring) is complete -- Room entities/DAOs/database, DataStore AppPreferences, 3 Koin modules, ZhiYuApplication, ThemeMode enum
-- All 18 Kotlin source files created under `com.zhiyu.app` package
-- FTS4 uses TOKENIZER_UNICODE61 (ICU unavailable on Android SQLite)
-- All AppPreferences flows use `flowOn(Dispatchers.IO)` to prevent main thread blocking
-- Koin modules: AppModule (singletons), RepositoryModule (empty stub), ViewModelModule (empty stub)
-- ZhiYuApplication registered in manifest, Koin starts in onCreate()
-- Next: Plan 01-03 creates MIUI-style Material3 theme with CJK font fallback
+- Plan 01-03 (MIUI Theme + CJK Font) is complete -- Color.kt, Type.kt, Shape.kt, Dimens.kt, Theme.kt with CJK font fallback, adaptive icons
+- 5 theme files in `ui/theme/`: Color.kt, Type.kt, Shape.kt, Dimens.kt, Theme.kt
+- Theme architecture: MaterialTheme OUTSIDE MiuixTheme (dual layer for Material3 + MIUIX compatibility)
+- CJK fallback: Typeface.CustomFallbackBuilder with Noto Sans SC placeholder + system "sans-serif" fallback
+- Font placeholder (460 bytes) at `res/font/noto_sans_sc_subset.ttf` -- replace with real subset before release
+- Icon drawables: 3 files (splash foreground, launcher foreground, adaptive icon definition)
+- Previous: 20 Kotlin source files, now 25 + 3 XML resources + 1 font file
+- Next: Plan 01-04 creates Splash Screen, MainActivity, and FoundationPlaceholder
 
 ---
 
