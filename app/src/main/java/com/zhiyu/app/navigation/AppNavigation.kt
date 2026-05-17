@@ -1,5 +1,9 @@
 package com.zhiyu.app.navigation
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,6 +20,11 @@ import com.zhiyu.app.ui.screens.profile.AboutScreen
 import com.zhiyu.app.ui.screens.profile.ProfileScreen
 import com.zhiyu.app.ui.screens.profile.SettingsScreen
 
+private val tabEnter = fadeIn()
+private val tabExit = fadeOut()
+private val subEnter = slideInHorizontally { it } + fadeIn()
+private val subExit = slideOutHorizontally { it } + fadeOut()
+
 @Composable
 fun AppNavigation(
     navController: NavHostController,
@@ -26,10 +35,20 @@ fun AppNavigation(
         startDestination = ZhiYuRoutes.Info,
         modifier = modifier
     ) {
-        composable<ZhiYuRoutes.Info> {
+        composable<ZhiYuRoutes.Info>(
+            enterTransition = { tabEnter },
+            exitTransition = { tabExit },
+            popEnterTransition = { tabEnter },
+            popExitTransition = { tabExit },
+        ) {
             InfoScreen()
         }
-        composable<ZhiYuRoutes.Knowledge> {
+        composable<ZhiYuRoutes.Knowledge>(
+            enterTransition = { tabEnter },
+            exitTransition = { tabExit },
+            popEnterTransition = { tabEnter },
+            popExitTransition = { tabExit },
+        ) {
             KnowledgeScreen(
                 onNavigateToArticle = { articleId ->
                     navController.navigate(ZhiYuRoutes.ArticleDetail(articleId))
@@ -39,7 +58,12 @@ fun AppNavigation(
                 }
             )
         }
-        composable<ZhiYuRoutes.ArticleDetail> { backStackEntry ->
+        composable<ZhiYuRoutes.ArticleDetail>(
+            enterTransition = { subEnter },
+            exitTransition = { subExit },
+            popEnterTransition = { subEnter },
+            popExitTransition = { subExit },
+        ) { backStackEntry ->
             val route = backStackEntry.toRoute<ZhiYuRoutes.ArticleDetail>()
             ArticleDetailScreen(
                 articleId = route.articleId,
@@ -49,28 +73,47 @@ fun AppNavigation(
                 }
             )
         }
-        composable<ZhiYuRoutes.ArticleEditor> { backStackEntry ->
+        composable<ZhiYuRoutes.ArticleEditor>(
+            enterTransition = { subEnter },
+            exitTransition = { subExit },
+            popEnterTransition = { subEnter },
+            popExitTransition = { subExit },
+        ) { backStackEntry ->
             val route = backStackEntry.toRoute<ZhiYuRoutes.ArticleEditor>()
             ArticleEditorScreen(
                 articleId = route.articleId,
                 onNavigateBack = { navController.popBackStack() },
                 onSaved = { _ ->
-                    // After saving, pop back to knowledge list
                     navController.popBackStack(ZhiYuRoutes.Knowledge, inclusive = false)
                 }
             )
         }
-        composable<ZhiYuRoutes.Discover> {
+        composable<ZhiYuRoutes.Discover>(
+            enterTransition = { tabEnter },
+            exitTransition = { tabExit },
+            popEnterTransition = { tabEnter },
+            popExitTransition = { tabExit },
+        ) {
             DiscoverScreen()
         }
-        composable<ZhiYuRoutes.Profile> {
+        composable<ZhiYuRoutes.Profile>(
+            enterTransition = { tabEnter },
+            exitTransition = { tabExit },
+            popEnterTransition = { tabEnter },
+            popExitTransition = { tabExit },
+        ) {
             ProfileScreen(
                 onNavigateToSettings = {
                     navController.navigate(ZhiYuRoutes.Settings)
                 }
             )
         }
-        composable<ZhiYuRoutes.Settings> {
+        composable<ZhiYuRoutes.Settings>(
+            enterTransition = { subEnter },
+            exitTransition = { subExit },
+            popEnterTransition = { subEnter },
+            popExitTransition = { subExit },
+        ) {
             SettingsScreen(
                 onNavigateBack = { navController.popBackStack() },
                 onNavigateToAbout = {
@@ -78,7 +121,12 @@ fun AppNavigation(
                 }
             )
         }
-        composable<ZhiYuRoutes.About> {
+        composable<ZhiYuRoutes.About>(
+            enterTransition = { subEnter },
+            exitTransition = { subExit },
+            popEnterTransition = { subEnter },
+            popExitTransition = { subExit },
+        ) {
             AboutScreen()
         }
     }

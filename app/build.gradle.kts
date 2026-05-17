@@ -96,6 +96,7 @@ dependencies {
     implementation(libs.miuix.ui)
     implementation(libs.miuix.icons)
     implementation(libs.miuix.preference)
+    implementation(libs.miuix.blur)
 
     // Kotlinx Serialization
     implementation(libs.kotlinx.serialization.json)
