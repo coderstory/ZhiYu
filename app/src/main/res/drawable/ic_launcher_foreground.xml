@@ -4,13 +4,8 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <!-- Knowledge/leaf shape - two overlapping rounded shapes -->
-    <group android:translateX="22" android:translateY="24">
-        <path
-            android:fillColor="#FFFFFF"
-            android:pathData="M8,4L8,44C8,46.2 9.8,48 12,48L52,48C54.2,48 56,46.2 56,44L56,12C56,9.8 54.2,8 52,8L24,8L16,0L8,4Z" />
-        <path
-            android:fillColor="#E6F4FF"
-            android:pathData="M48,40C48,42.2 46.2,44 44,44L12,44C9.8,44 8,42.2 8,40L8,8L48,40Z" />
-    </group>
+    <!-- White circle centered in 108dp viewport -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,20C35.2,20 20,35.2 20,54C20,72.8 35.2,88 54,88C72.8,88 88,72.8 88,54C88,35.2 72.8,20 54,20Z" />
 </vector>
